@@ -16,6 +16,9 @@ const router = new Router({
           name: 'Dashboard',
           path: '',
           component: () => import('@/views/dashboard/Dashboard'),
+          meta: {
+            requiresAuth: true,
+          },
         },
       ],
     },
@@ -71,7 +74,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('jwt') == null) {
+    if (localStorage.getItem('user') == null) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath },
